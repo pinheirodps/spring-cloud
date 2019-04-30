@@ -1,6 +1,7 @@
 package com.jps.example.usergreetingservice.consumer;
 
 import com.jps.example.usergreetingservice.service.EurekaService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -25,9 +26,13 @@ public class GreetingConsumer {
         this.restTemplate = restTemplate;
     }
 
+    @HystrixCommand(fallbackMethod = "getDefaultGreeting")
     public String getRandomGreeting() {
-        URI uri = eurekaService.getInstance(greetingServiceId);
-        String greeting = restTemplate.getForObject(uri.toString() + greetingEndpointUri, String.class);
+        String greeting = restTemplate.getForObject("http://greeting-service" + greetingEndpointUri, String.class);
         return greeting;
+    }
+
+    public String getDefaultGreeting() {
+        return "Good bye";
     }
 }
