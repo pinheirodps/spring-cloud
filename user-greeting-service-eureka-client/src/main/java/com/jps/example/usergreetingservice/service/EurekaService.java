@@ -18,11 +18,4 @@ public class EurekaService {
         this.discoveryClient = discoveryClient;
     }
 
-    public URI getInstance(String serviceId) {
-        List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
-        if(instances != null && instances.size() > 0) {
-            return instances.get(0).getUri();
-        }
-        return null;
-    }
 }

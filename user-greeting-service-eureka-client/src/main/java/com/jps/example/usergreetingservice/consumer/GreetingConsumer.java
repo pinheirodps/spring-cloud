@@ -13,7 +13,6 @@ public class GreetingConsumer {
 
     private final RestTemplate restTemplate;
 
-    private final EurekaService eurekaService;
 
     @Value("${app.greetingService.serviceId}")
     private String greetingServiceId;
@@ -22,9 +21,8 @@ public class GreetingConsumer {
     private String greetingEndpointUri;
 
     @Autowired
-    public GreetingConsumer(RestTemplate restTemplate, EurekaService eurekaService) {
+    public GreetingConsumer(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-        this.eurekaService = eurekaService;
     }
 
     public String getRandomGreeting() {
